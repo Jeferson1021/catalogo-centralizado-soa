@@ -144,10 +144,6 @@ Repositorio previsto:
 
 `https://github.com/Jeferson1021/catalogo-centralizado-soa`
 
-Antes de entregar, verifica que el repositorio exista, sea público y contenga como mínimo `app.py`, `requirements.txt`, `servicios.json`, `README.md`, `.gitignore` y las evidencias disponibles.
-
-No publiques la carpeta `.venv/`.
-
 ## 11. Limitaciones y mejoras futuras
 
 Esta implementación es una demostración académica. Para un entorno productivo convendría incorporar una base de datos, autenticación y autorización, validaciones adicionales, pruebas automatizadas, control de concurrencia y despliegue seguro.
