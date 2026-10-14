@@ -1,0 +1,57 @@
+[
+    {
+        "id": "SRV-001",
+        "method": "GET",
+        "version": "1.0.0",
+        "description": "Consulta información básica de un cliente.",
+        "owner": "Equipo SOA",
+        "name": "ConsultaCliente",
+        "path": "/api/v1/clientes/<cliente_id>",
+        "status": "activo",
+        "protocol": "REST"
+    },
+    {
+        "id": "SRV-002",
+        "method": "GET",
+        "version": "1.0.0",
+        "description": "Consulta información de un pedido.",
+        "owner": "Equipo SOA",
+        "name": "ConsultaPedido",
+        "path": "/api/v1/pedidos/<pedido_id>",
+        "status": "activo",
+        "protocol": "REST"
+    },
+    {
+        "id": "SRV-003",
+        "method": "GET",
+        "version": "1.0.0",
+        "description": "Consulta disponibilidad de un producto",
+        "owner": "Equipo SOA",
+        "name": "ConsultaInventario",
+        "path": "/api/v1/inventario/producto",
+        "status": "activo",
+        "protocol": "REST"
+    },
+    {
+        "id": "SRV-004",
+        "name": "PruebaPersistencia",
+        "description": "Prueba de almacenamiento permanente",
+        "version": "1.0.0",
+        "protocol": "REST",
+        "method": "GET",
+        "path": "/api/v1/prueba-persistencia",
+        "owner": "Equipo SOA",
+        "status": "activo"
+    },
+    {
+        "id": "SRV-005",
+        "name": "EvidenciaRegistro",
+        "description": "Servicio de prueba para evidenciar el registro REST.",
+        "version": "1.0.0",
+        "protocol": "REST",
+        "method": "GET",
+        "path": "/api/v1/evidencia-registro",
+        "owner": "Equipo SOA",
+        "status": "activo"
+    }
+]

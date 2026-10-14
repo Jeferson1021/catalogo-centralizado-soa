@@ -1,91 +1,153 @@
-# Catálogo centralizado de servicios SOA
+﻿# Catálogo centralizado SOA
 
-Proyecto académico que implementa un servicio REST para consultar y registrar metadatos de servicios SOA. Se relaciona con el patrón **Centralización de Metadatos**, definido como patrón principal en el trabajo de arquitectura.
+## 1. Descripción del proyecto
 
-> **Alcance:** prototipo educativo. Los registros se guardan en memoria y se pierden al detener o reiniciar la aplicación. No está diseñado para producción.
+Este proyecto implementa una API REST con Python y Flask para consultar y registrar metadatos de servicios. Su propósito es centralizar información como el identificador, nombre, versión, protocolo, método HTTP, ruta, propietario y estado de cada servicio.
 
-## Requisitos
+Es una implementación académica de los conceptos de Arquitectura Orientada a Servicios (SOA).
 
-- Python 3.10 o superior
-- `pip`
+## 2. Tecnologías utilizadas
 
-## Instalación y ejecución
+- Python 3
+- Flask
+- API REST mediante HTTP
+- JSON para el intercambio de información
+- Archivo `servicios.json` para persistir el catálogo
 
-### Windows (PowerShell)
-
-```powershell
-py -m venv .venv
-.\.venv\Scripts\Activate.ps1
-pip install -r requirements.txt
-python app.py
-```
-
-### Linux / macOS
-
-```bash
-python3 -m venv .venv
-source .venv/bin/activate
-pip install -r requirements.txt
-python app.py
-```
-
-Luego abre `http://127.0.0.1:5000/` en el navegador.
-
-## Endpoints disponibles
-
-| Método | Ruta | Función | Código normal |
-|---|---|---|---|
-| GET | `/` | Información básica del proyecto | 200 |
-| GET | `/health` | Comprueba que la API está activa | 200 |
-| GET | `/api/v1/servicios` | Lista el catálogo | 200 |
-| GET | `/api/v1/servicios/SRV-001` | Consulta un servicio por ID | 200 |
-| POST | `/api/v1/servicios` | Registra un servicio nuevo | 201 |
-
-Errores previstos: `400` si el JSON es inválido o faltan campos, `404` si no existe el identificador y `409` si se intenta duplicar un ID.
-
-## Probar la API
-
-Con la aplicación en ejecución, abre en el navegador:
-
-- `http://127.0.0.1:5000/health`
-- `http://127.0.0.1:5000/api/v1/servicios`
-- `http://127.0.0.1:5000/api/v1/servicios/SRV-001`
-
-Para registrar un servicio nuevo, ejecuta en una terminal:
-
-```bash
-curl -X POST http://127.0.0.1:5000/api/v1/servicios -H "Content-Type: application/json" -d '{"id":"SRV-003","name":"ConsultaInventario","description":"Consulta disponibilidad de un producto.","version":"1.0.0","protocol":"REST","method":"GET","path":"/api/v1/inventario/<producto_id>","owner":"Equipo SOA","status":"activo"}'
-```
-
-## Estructura
+## 3. Estructura del proyecto
 
 ```text
-proyecto_catalogo_soa/
+catalogo-centralizado-soa-main/
 ├── app.py
 ├── requirements.txt
 ├── README.md
 ├── .gitignore
+├── servicios.json
 └── evidencias/
 ```
 
-La carpeta `evidencias/` queda destinada a capturas tomadas por el equipo al ejecutar y probar realmente la API.
+La carpeta `.venv/` contiene el entorno virtual local y no debe publicarse en GitHub.
 
-## Cómo se relaciona con SOA
+## 4. Instalación y ejecución en Windows
 
-- **Consumidor:** navegador, `curl` u otra aplicación que invoca la API.
-- **Servicio REST/proveedor:** aplicación Flask que recibe las solicitudes HTTP.
-- **Contrato/interfaz:** rutas, métodos HTTP, campos JSON y códigos de estado documentados en este archivo.
-- **Repositorio de metadatos:** catálogo consultable mediante `/api/v1/servicios`.
-- **Gobernanza:** cada registro incluye identificador, nombre, versión, propietario y estado.
+Abre PowerShell en la carpeta del proyecto.
 
-## Evidencias que debe aportar el equipo
+Crea un entorno virtual si todavía no existe:
 
-Guarden capturas auténticas en `evidencias/` de: (1) aplicación iniciada, (2) listado de servicios, (3) consulta por ID, (4) registro exitoso con código HTTP 201 y (5) repositorio público mostrando los archivos. No incluyan contraseñas, tokens ni datos personales reales.
+```powershell
+py -m venv .venv
+```
 
-## Publicar en GitHub
+Activa el entorno virtual:
 
-Repositorio previsto: `https://github.com/Jeferson1021/catalogo-centralizado-soa`
+```powershell
+.\.venv\Scripts\Activate.ps1
+```
 
-Para subir estos archivos, descomprima el ZIP en su equipo, abra el repositorio en GitHub y use **Add file → Upload files**. Arrastre los archivos y carpetas del proyecto (no solo el archivo ZIP), escriba un mensaje como `Agrega implementación REST del catálogo SOA` y seleccione **Commit changes**. Revise después que `app.py`, `requirements.txt` y este `README.md` aparezcan en la página principal del repositorio.
+Instala las dependencias:
 
-Para un entorno productivo se necesitarían persistencia en base de datos, autenticación y autorización, validaciones más robustas, pruebas automatizadas y despliegue seguro.
+```powershell
+py -m pip install -r requirements.txt
+```
+
+Inicia el servicio:
+
+```powershell
+py app.py
+```
+
+Si la aplicación inicia correctamente, estará disponible en:
+
+`http://127.0.0.1:5000`
+
+Mantén abierta esa terminal mientras realizas las pruebas.
+
+## 5. Endpoints disponibles
+
+| Método | Endpoint | Descripción |
+|---|---|---|
+| GET | `/` | Información general del proyecto |
+| GET | `/health` | Verificación de disponibilidad |
+| GET | `/api/v1/inventario/producto` | Consulta de un producto de prueba |
+| GET | `/api/v1/servicios` | Consulta todos los servicios registrados |
+| GET | `/api/v1/servicios/<service_id>` | Consulta un servicio por identificador |
+| POST | `/api/v1/servicios` | Registra un servicio nuevo |
+
+## 6. Pruebas de la API
+
+Con Flask en ejecución, abre en el navegador:
+
+- `http://127.0.0.1:5000/health`
+- `http://127.0.0.1:5000/api/v1/inventario/producto`
+- `http://127.0.0.1:5000/api/v1/servicios`
+- `http://127.0.0.1:5000/api/v1/servicios/SRV-001`
+
+Para registrar un nuevo servicio desde PowerShell, ejecuta:
+
+```powershell
+$body = @{
+    id = "SRV-005"
+    name = "PruebaCatalogo"
+    description = "Servicio de prueba del catalogo centralizado."
+    version = "1.0.0"
+    protocol = "REST"
+    method = "GET"
+    path = "/api/v1/prueba-catalogo"
+    owner = "Equipo SOA"
+    status = "activo"
+} | ConvertTo-Json
+
+Invoke-RestMethod `
+    -Uri "http://127.0.0.1:5000/api/v1/servicios" `
+    -Method POST `
+    -ContentType "application/json" `
+    -Body $body
+```
+
+El ejemplo utiliza `SRV-005` para evitar duplicar los identificadores ya registrados. La ruta `/api/v1/prueba-catalogo` es un metadato de ejemplo: registrarla en el catálogo no crea automáticamente un endpoint funcional.
+
+## 7. Persistencia de datos
+
+Los registros del catálogo se almacenan en `servicios.json`. Los servicios pueden consultarse mediante la API y los registros nuevos se guardan en ese archivo.
+
+Para verificar la persistencia, registra un servicio, reinicia la aplicación y vuelve a consultar:
+
+`http://127.0.0.1:5000/api/v1/servicios`
+
+El registro debe continuar presente después del reinicio.
+
+## 8. Relación con la arquitectura SOA
+
+- **Consumidor:** navegador u otra aplicación que invoca la API.
+- **Proveedor:** aplicación Flask que procesa las solicitudes HTTP.
+- **Contrato del servicio:** endpoints, métodos HTTP, estructura JSON y códigos de respuesta.
+- **Catálogo centralizado:** repositorio de metadatos consultable mediante `/api/v1/servicios`.
+- **Gobernanza:** identificación, versión, propietario y estado de los servicios.
+
+## 9. Evidencias de funcionamiento
+
+Guarda en `evidencias/` capturas reales que demuestren:
+
+1. La aplicación iniciada correctamente.
+2. La consulta de disponibilidad mediante `/health`.
+3. El listado de servicios.
+4. La consulta de un servicio por identificador.
+5. El registro de un servicio nuevo con respuesta HTTP 201.
+6. La persistencia del registro después de reiniciar la aplicación.
+7. El repositorio público de GitHub con los archivos del proyecto.
+
+No incluyas contraseñas, tokens ni información personal real.
+
+## 10. Publicación en GitHub
+
+Repositorio previsto:
+
+`https://github.com/Jeferson1021/catalogo-centralizado-soa`
+
+Antes de entregar, verifica que el repositorio exista, sea público y contenga como mínimo `app.py`, `requirements.txt`, `servicios.json`, `README.md`, `.gitignore` y las evidencias disponibles.
+
+No publiques la carpeta `.venv/`.
+
+## 11. Limitaciones y mejoras futuras
+
+Esta implementación es una demostración académica. Para un entorno productivo convendría incorporar una base de datos, autenticación y autorización, validaciones adicionales, pruebas automatizadas, control de concurrencia y despliegue seguro.
